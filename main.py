@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from typing import List
 from datetime import date
 
 # Model used to represent card info
@@ -8,8 +9,11 @@ class Card(BaseModel):
 	holder_name: str
 	expiry_date: date
 
+class Notification():
+	pass
 
 # Model used to represent user model
+# TODO: Include stories
 class User(BaseModel):
 	username: str
 	name: str
@@ -17,7 +21,8 @@ class User(BaseModel):
 	gender: str
 	email: str
 	profile_pic: str | None = None
-	friends: list[User]
+	friends: List['User']
+	card: List['Card']
 
 app = FastAPI()
 
