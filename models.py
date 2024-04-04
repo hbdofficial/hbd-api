@@ -1,5 +1,6 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Date, TIMESTAMP
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Date, TIMESTAMP, MetaData
 from sqlalchemy.orm import relationship
+from sqlalchemy.schema import PrimaryKeyConstraint
 
 from .database import Base
 
@@ -17,7 +18,7 @@ class User(Base):
 	profile_pic = Column(String, nullable=True)
 
 	# Relationships
-	notifications = relationship("Notification", back_populates="notification")
+	#notifications = relationship("Notification", back_populates="notification")
 
 # TODO: Implement way to find notifications are closed 
 class Notification(Base):
@@ -25,8 +26,13 @@ class Notification(Base):
 	__tablename__ = "notification"
 
 	#columns
-	username = Column(String, ForeignKey("username"), nullable=False, primary_key=True)
-	timestamp = Column(TIMESTAMP, nullable=False, primary_key=True)
+	username = Column(String, ForeignKey("user"), primary_key=True)
+	timestamp = Column(TIMESTAMP, primary_key=True)
 	content = Column(String, nullable=False)
 
 	user = relationship("User", back_populates="user")
+
+	# Used to add composite key constraints
+	__table_args__ = (
+		PrimaryKeyConstraint("username","timestamp"),
+	)
