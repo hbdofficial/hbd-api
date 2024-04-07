@@ -9,7 +9,7 @@ from alembic import context
 from app.database import Base
 
 # Models (import the relevant models which are required to be migrated)
-from app.models import User
+from app.models.user import User
 #from app.models import Notification
 
 # this is the Alembic Config object, which provides
