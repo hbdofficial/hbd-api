@@ -1,7 +1,8 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String, Date, TIMESTAMP, MetaData
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column,String, Date, TIMESTAMP
+from sqlalchemy.orm import relationship, backref
 
 from app.database import Base
+from .mappings.follow import follow_table
 
 # User model
 class User(Base):
@@ -18,4 +19,13 @@ class User(Base):
 	profile_pic = Column(String, nullable=True)
 
 	# Relationships
-	#notifications = relationship("Notification", back_populates="notification")
+	notifications = relationship("Notification", back_populates="users", cascade="all, delete")
+	follows = relationship(
+		"User",
+		secondary=follow_table, 
+		primaryjoin=(username == follow_table.c.username),
+		secondaryjoin=(username == follow_table.c.following_username),
+		backref=backref("followers", lazy="dynamic"),
+		lazy="dynamic"
+	)
+	cards = relationship("Card", back_populates="users")
