@@ -5,3 +5,6 @@
 /alembic/__pycache__
 /alembic/versions/__pycache__
 
+# Pycache generated for models
+/models/__pycache__
+/models/maps/__pycache__
