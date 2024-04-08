@@ -10,7 +10,8 @@ from app.database import Base
 
 # Models (import the relevant models which are required to be migrated)
 from app.models.user import User
-#from app.models import Notification
+from app.models.notification import Notification
+from app.models.card import Card
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
