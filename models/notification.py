@@ -3,7 +3,6 @@ from sqlalchemy.orm import relationship
 
 from app.database import Base
 
-
 # TODO: Implement way to find notifications are closed 
 class Notification(Base):
 	# Name of the table
