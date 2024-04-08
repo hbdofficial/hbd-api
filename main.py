@@ -25,7 +25,3 @@ class User(BaseModel):
 	card: List['Card']
 
 app = FastAPI()
-
-@app.get("/users/{username}")
-def user_data(username: str):
-	pass
