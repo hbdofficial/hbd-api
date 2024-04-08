@@ -13,4 +13,4 @@ class Notification(Base):
 	timestamp = Column(TIMESTAMP)
 	content = Column(String, nullable=False, primary_key=True)
 
-	user = relationship("User", back_populates="user")
+	user = relationship("User", back_populates="notifications")
