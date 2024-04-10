@@ -8,10 +8,13 @@ from alembic import context
 # Metadata
 from app.database import Base
 
+# Backend config
+from app.config import DATABASE_URL
+
 # Models (import the relevant models which are required to be migrated)
+from app.models.card import Card
 from app.models.user import User
 from app.models.notification import Notification
-from app.models.card import Card
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -65,8 +68,11 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
+    config_ini = config.get_section(config.config_ini_section)
+    # Loading database url from the .env
+    config_ini['sqlalchemy.url'] = DATABASE_URL
     connectable = engine_from_config(
-        config.get_section(config.config_ini_section, {}),
+        config_ini,
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )
