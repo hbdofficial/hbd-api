@@ -2,12 +2,12 @@ from sqlalchemy import Column,String, Date, TIMESTAMP
 from sqlalchemy.orm import relationship, backref
 
 from app.database import Base
-from .mappings.follow import follow_table
+from .maps.follow import follow_table
 
 # User model
 class User(Base):
 	# Name of the table
-	__tablename__ = "user"
+	__tablename__ = "users"
 
 	#columns
 	username = Column(String, primary_key=True)

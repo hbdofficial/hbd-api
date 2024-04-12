@@ -5,7 +5,7 @@ from app.database import Base
 follow_table = Table(
 	"friends",
 	Base.metadata,
-	Column("username",String, ForeignKey("user.username"), primary_key=True),
-	Column("following_username",String, ForeignKey("user.username") ,primary_key=True),
+	Column("username",String, ForeignKey("users.username"), primary_key=True),
+	Column("following_username",String, ForeignKey("users.username") ,primary_key=True),
 	Column("date_followed",DateTime)
 )

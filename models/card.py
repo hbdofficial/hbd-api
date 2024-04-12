@@ -6,7 +6,7 @@ class Card(Base):
 	__tablename__ = "card"
 
 	card_no = Column(String,primary_key=True)
-	username = Column(String, ForeignKey("user.username") ,primary_key=True)
+	username = Column(String, ForeignKey("users.username") ,primary_key=True)
 	holder_name = Column(String, nullable=False)
 	expiry_date = Column(DateTime, nullable=False)
 	
