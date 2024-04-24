@@ -1,8 +1,13 @@
-from sqlalchemy import Column,String, Date, TIMESTAMP
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy import String
+from sqlalchemy.orm import relationship, backref, mapped_column, Mapped
 
 from app.database import Base
 from .maps.follow import follow_table
+
+from datetime import datetime
+
+from app.models.notification import Notification
+from app.models.card import Card
 
 # User model
 class User(Base):
@@ -10,16 +15,18 @@ class User(Base):
 	__tablename__ = "users"
 
 	#columns
-	username = Column(String, primary_key=True)
-	name = Column(String, nullable=False)
-	hashed_password = Column(String, nullable=False)
-	email = Column(String, nullable=True)
-	gender = Column(String, nullable=True)
-	birthday = Column(Date)
-	profile_pic = Column(String, nullable=True)
+	username: Mapped[str] = mapped_column(primary_key=True)
+	name: Mapped[str] = mapped_column(nullable=False)
+	hashed_password: Mapped[str] = mapped_column(nullable=False)
+	email: Mapped[str] = mapped_column(nullable=True)
+	gender: Mapped[str] = mapped_column(nullable=True)
+	birthday: Mapped[datetime] = mapped_column()
+	profile_pic: Mapped[str | None] = mapped_column(nullable=True)
 
 	# Relationships
-	notifications = relationship("Notification", back_populates="users", cascade="all, delete")
+	notifications = relationship("Notification",cascade="all, delete")
+	
+	# Represent all the followers
 	follows = relationship(
 		"User",
 		secondary=follow_table, 
@@ -28,4 +35,8 @@ class User(Base):
 		backref=backref("followers", lazy="dynamic"),
 		lazy="dynamic"
 	)
-	cards = relationship("Card", back_populates="users")
+
+	# Represent all the cards
+	cards = relationship("Card")
+
+	

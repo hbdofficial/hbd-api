@@ -1,7 +1,10 @@
-from sqlalchemy import Column, ForeignKey, String, TIMESTAMP
-from sqlalchemy.orm import relationship
+from sqlalchemy import ForeignKey, func, TIMESTAMP
+from sqlalchemy.orm import relationship, mapped_column, Mapped
 
 from app.database import Base
+
+from datetime import datetime
+
 
 # TODO: Implement way to find notifications are closed 
 class Notification(Base):
@@ -9,8 +12,6 @@ class Notification(Base):
 	__tablename__ = "notification"
 
 	#columns
-	username = Column(String, ForeignKey("users.username"), primary_key=True)
-	timestamp = Column(TIMESTAMP)
-	content = Column(String, nullable=False, primary_key=True)
-
-	user = relationship("User", back_populates="notifications")
+	username: Mapped[str] = mapped_column(ForeignKey("users.username"), primary_key=True)
+	timestamp: Mapped[datetime] = mapped_column(TIMESTAMP)
+	content: Mapped[str] = mapped_column(nullable=False, primary_key=True)
