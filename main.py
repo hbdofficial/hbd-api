@@ -1,54 +1,35 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends, HTTPException
+from sqlalchemy.orm import Session
 
 app = FastAPI()
 
 # This file contains everything related to the user route
 
-from pydantic import BaseModel
-from datetime import date, datetime
+from crud import get_user
+from database import SessionLocal
 
-from app.main import app 
+from app.schemas import SafeUser, UnsafeUser
 
-# Schema representing account data
-class Account(BaseModel):
-	name: str
-	email: str
-	birthday: date
-	gender: str
+# Function to open a database session for each request and 
+# close when the request finishes
 
-# Schema representing credit card information
-class Card(BaseModel):
-	card_no: str
-	holder_name: str
-	expiry_date: date
+def get_db():
+	db = SessionLocal()
+	try:
+		yield db
+	finally:
+		db.close()
 
-# Schema representing notification information
-class Notification(BaseModel):
-	timestamp: datetime
-	content: str
 
-# Schema representing user data response
-class User(BaseModel):
-	account: Account
-	age: int
-	billing_details: list[Card]
-	notifications: list[Notification] | None
-
-@app.get("/users/{username}", response_model=User)
-def route(username: str) -> User:
-	return User(
-		account=Account(
-			name="Rasuwan Kalhara", 
-			email="kalharaweragala@gmail.com", 
-			birthday=date(2024,10,1), 
-			gender="male"
-		),
-		billing_details=[
-			Card(
-				holder_name="W.D.Y.R.Kalhara",
-				expiry_date=date(2027,7,2),
-				card_no="122342-34-3455-34"
-				)],
-			age=21,
-			notifications=None
-		)
+@app.get("/users/{username}", response_model=UnsafeUser)
+def route(username: str,  db: Session = Depends(get_db)):
+	# TODO: Return friends
+	# Get the result from the orm
+	user = get_user(db,username)
+	
+	if user:
+		print(user.cards)
+		return user
+	else:
+		# In case such user is not in the database
+		return HTTPException(404, "User not found")
