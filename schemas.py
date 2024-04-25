@@ -20,7 +20,6 @@ class UnsafeUser(SafeUser):
 	follows: list["SafeUser"] | None
 
 
-
 class Notification(BaseModel):
 	username:str
 	timestamp:datetime
