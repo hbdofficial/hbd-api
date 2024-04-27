@@ -1,19 +1,14 @@
 # This contains all the configuration reated to firebase
 
-import json
-import pyrebase
+import firebase_admin
+from firebase_admin import credentials, storage
 
 from config import FIREBASE_CONFIG
 
-#config for the firebase
-config = {
-	"apiKey": "AIzaSyDeUM5Zx3ppESKtAIAYlWsRXSa_zcXIwag",
-	"authDomain": "hbd-backend.firebaseapp.com",
-	"storageBucket":"hbd-backend.appspot.com",
-	"databaseURL":""
-}
-
-firebase = pyrebase.initialize_app(config)
+cred = credentials.Certificate(FIREBASE_CONFIG)
+firebase_admin.initialize_app(cred, {
+	'storageBucket':'hbd-backend.appspot.com'
+})
 
 # Getting the firebase storage service
-storage = firebase.storage()
+bucket = storage.bucket()
