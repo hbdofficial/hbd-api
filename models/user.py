@@ -3,11 +3,13 @@ from sqlalchemy.orm import relationship, backref, mapped_column, Mapped
 
 from app.database import Base
 from .maps.follow import follow_table
+from .maps.wish import wish_table
 
 from datetime import datetime
 
 from app.models.notification import Notification
 from app.models.card import Card
+from app.models.wish import Wish
 
 # User model
 class User(Base):
@@ -35,6 +37,8 @@ class User(Base):
 		backref=backref("followers", lazy="dynamic"),
 		lazy="dynamic"
 	)
+
+	
 
 	# Represent all the cards
 	cards = relationship("Card")

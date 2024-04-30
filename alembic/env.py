@@ -15,6 +15,8 @@ from app.config import DATABASE_URL
 from app.models.card import Card
 from app.models.user import User
 from app.models.notification import Notification
+from app.models.wish import Wish
+from app.models.maps.wish import wish_table
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
