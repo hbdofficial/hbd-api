@@ -1,0 +1,7 @@
+version: 1.0
+name: hbd-api
+port: 8080
+type: REST
+networkVisibility: Public
+context: /
+schemaPath: /openapi.json
